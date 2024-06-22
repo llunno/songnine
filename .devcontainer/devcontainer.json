@@ -16,7 +16,10 @@
 		"vscode": {
 			"extensions": [
 				"vscjava.vscode-spring-boot-dashboard",
-				"vmware.vscode-spring-boot"
+				"vmware.vscode-spring-boot",
+				"mhutchie.git-graph",
+				"eamodio.gitlens",
+				"donjayamanne.githistory"
 			]
 		}
 	}
