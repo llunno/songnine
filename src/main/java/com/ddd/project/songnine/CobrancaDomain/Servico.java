@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -18,17 +20,14 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "planos")
-public class Plano {
-    
+@Table(name = "servicos")
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Servico {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     @NotBlank
     private String nome;
-    @NotBlank
     private String descricao;
-    private boolean ativo;
-    @NotBlank
-    private Double valor;
 }

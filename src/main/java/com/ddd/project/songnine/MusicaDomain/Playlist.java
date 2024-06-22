@@ -28,7 +28,7 @@ public class Playlist {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String nome;
+    private String nome = String.format("Playlist %s", UUID.randomUUID().toString());
     private String descricao;
     @ManyToMany
     private Collection<Musica> musicas;
