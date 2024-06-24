@@ -3,9 +3,9 @@ package com.ddd.project.songnine.CobrancaDomain;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import com.ddd.project.songnine.Business.Services.Validators.NumeroCartao;
 import com.ddd.project.songnine.CobrancaDomain.Constants.Bandeira;
 import com.ddd.project.songnine.CobrancaDomain.Constants.TipoCartao;
-import com.ddd.project.songnine.CobrancaDomain.Services.Validators.NumeroCartao;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

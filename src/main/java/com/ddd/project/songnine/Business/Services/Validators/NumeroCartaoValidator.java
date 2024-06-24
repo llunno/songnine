@@ -1,4 +1,4 @@
-package com.ddd.project.songnine.CobrancaDomain.Services.Validators;
+package com.ddd.project.songnine.Business.Services.Validators;
 
 import com.ddd.project.songnine.CobrancaDomain.Constants.Bandeira;
 
