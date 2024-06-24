@@ -49,6 +49,15 @@ public class Transacao {
     private static final int MAX_TRANSACOES_POR_INTERVALO = 3;
     private static final int MAX_TRANSACOES_SEMELHANTES_POR_INTERVALO = 2;
     
+    
+    private void assertTransacaoUserEqualsServicoUser() {
+        if (this.servico instanceof Assinatura) {
+            if (!this.usuario.equals(((Assinatura) this.servico).getUsuario())) {
+                throw new TransacaoReprovadaException("Transação não pertence ao usuário");
+            }
+        }
+    }
+    
     public static int getMaxTransacoesSemelhantesPorIntervalo() {
         return MAX_TRANSACOES_SEMELHANTES_POR_INTERVALO;
     }
@@ -69,5 +78,10 @@ public class Transacao {
         } else {
             this.aprovada = aprovada;
         }
+    }
+
+    public void setUsuario(Usuario usuario) {
+        assertTransacaoUserEqualsServicoUser();
+        this.usuario = usuario;
     }
 }
