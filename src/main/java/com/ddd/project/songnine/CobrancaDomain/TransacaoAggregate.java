@@ -3,7 +3,15 @@ package com.ddd.project.songnine.CobrancaDomain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
+import org.springframework.data.domain.AbstractAggregateRoot;
+
+import com.ddd.project.songnine.Business.Constants.EventType;
 import com.ddd.project.songnine.Business.Exceptions.TransacaoReprovadaException;
+import com.ddd.project.songnine.Business.Interfaces.DomainEventFactory;
+import com.ddd.project.songnine.CobrancaDomain.Events.TransacaoCriadaDomainEvent;
 import com.ddd.project.songnine.UsuarioDomain.Usuario;
 
 import jakarta.persistence.Entity;
@@ -26,7 +34,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "transacoes")
-public class Transacao {
+public class TransacaoAggregate extends AbstractAggregateRoot<TransacaoAggregate> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -48,6 +56,9 @@ public class Transacao {
     private static final int INTERVALO_POR_TRANSACOES = 2;
     private static final int MAX_TRANSACOES_POR_INTERVALO = 3;
     private static final int MAX_TRANSACOES_SEMELHANTES_POR_INTERVALO = 2;
+
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
     
     
     private void assertTransacaoUserEqualsServicoUser() {
@@ -83,5 +94,11 @@ public class Transacao {
     public void setUsuario(Usuario usuario) {
         assertTransacaoUserEqualsServicoUser();
         this.usuario = usuario;
+    }
+
+    public void registerCriarTransacaoEvent(TransacaoAggregate transacao) {
+        var event = (TransacaoCriadaDomainEvent) DomainEventFactory.createDomainEvent(EventType.TRANSACAO);
+        event.setTransacao(transacao);
+        applicationEventPublisher.publishEvent(event);
     }
 }
