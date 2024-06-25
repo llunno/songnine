@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 import com.ddd.project.songnine.Business.Constants.EventType;
@@ -96,9 +95,10 @@ public class TransacaoAggregate extends AbstractAggregateRoot<TransacaoAggregate
         this.usuario = usuario;
     }
 
-    public void registerCriarTransacaoEvent(TransacaoAggregate transacao) {
+    public void publishCriarTransacaoEvent() {
         var event = (TransacaoCriadaDomainEvent) DomainEventFactory.createDomainEvent(EventType.TRANSACAO);
-        event.setTransacao(transacao);
+        event.setTransacao(this);
+        //this.registerEvent(event);
         applicationEventPublisher.publishEvent(event);
     }
 }

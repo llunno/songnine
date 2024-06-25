@@ -2,12 +2,9 @@ package com.ddd.project.songnine.CobrancaDomain.Services;
 
 import java.time.LocalDateTime;
 
-import org.jmolecules.event.annotation.DomainEventHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.event.TransactionPhase;
-import org.springframework.transaction.event.TransactionalEventListener;
-
 import com.ddd.project.songnine.Business.Exceptions.TransacaoReprovadaException;
 import com.ddd.project.songnine.Business.Interfaces.EntityPersistenceServiceMethods;
 import com.ddd.project.songnine.CobrancaDomain.TransacaoAggregate;
@@ -56,7 +53,7 @@ public class TransacaoService implements EntityPersistenceServiceMethods<Transac
     }
 
     @Override
-    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT, classes = TransacaoCriadaDomainEvent.class)
+    @EventListener(classes = TransacaoCriadaDomainEvent.class)
     public TransacaoAggregate saveEntity(TransacaoCriadaDomainEvent event) {
         if (transacaoAprovadaParaSerSalva(event.getTransacao())) {
             event.getTransacao().setAprovada(true);
