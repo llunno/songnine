@@ -4,8 +4,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.data.domain.AbstractAggregateRoot;
+import org.springframework.stereotype.Component;
 
 import com.ddd.project.songnine.Business.Constants.EventType;
 import com.ddd.project.songnine.Business.Exceptions.TransacaoReprovadaException;
@@ -19,6 +22,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,8 +36,9 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Component
 @Table(name = "transacoes")
-public class TransacaoAggregate extends AbstractAggregateRoot<TransacaoAggregate> {
+public class TransacaoAggregate extends AbstractAggregateRoot<TransacaoAggregate> implements ApplicationEventPublisherAware {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -57,9 +62,9 @@ public class TransacaoAggregate extends AbstractAggregateRoot<TransacaoAggregate
     private static final int MAX_TRANSACOES_SEMELHANTES_POR_INTERVALO = 2;
 
     @Autowired
+    @Transient
     private ApplicationEventPublisher applicationEventPublisher;
-    
-    
+   
     private void assertTransacaoUserEqualsServicoUser() {
         if (this.servico instanceof Assinatura) {
             if (!this.usuario.equals(((Assinatura) this.servico).getUsuario())) {
@@ -100,5 +105,9 @@ public class TransacaoAggregate extends AbstractAggregateRoot<TransacaoAggregate
         event.setTransacao(this);
         //this.registerEvent(event);
         applicationEventPublisher.publishEvent(event);
+    }
+
+    @Override
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
     }
 }

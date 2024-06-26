@@ -52,7 +52,7 @@ public class Usuario {
     private Integer telefone;
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private Endereco endereco;
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany
     private Collection<Playlist> playlists;
     @OneToMany
     private Collection<Musica> musicasFavoritas;

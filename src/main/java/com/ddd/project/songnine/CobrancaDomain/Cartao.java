@@ -44,12 +44,12 @@ public class Cartao {
     private String nomeTitular;
     @NotBlank
     @Enumerated(EnumType.STRING)
-    private Bandeira bandeira = setBandeira();
+    private Bandeira bandeira = Bandeira.DESCONHECIDA;
     @NotBlank
     private LocalDate validade;
     private boolean ativo = true;
 
-    private Bandeira setBandeira() {
+    private Bandeira verifyBandeira() {
         var tipoBandeira = Bandeira.DESCONHECIDA;
         for (var bandeira : Bandeira.values()) {
             if (this.numero.toString().matches(bandeira.getRegex())) {

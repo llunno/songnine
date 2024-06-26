@@ -14,7 +14,7 @@ import com.ddd.project.songnine.UsuarioDomain.Usuario;
 @Repository
 public interface TransacaoRepository extends JpaRepository<TransacaoAggregate, UUID>{
 
-    @Query("SELECT COUNT(t) FROM Transacao t WHERE t.valor = :valor AND t.usuario = :usuario AND t.data BETWEEN :doisMinutosAtras AND :agora")
+    @Query("SELECT COUNT(t) FROM TransacaoAggregate t WHERE t.valor = :valor AND t.usuario = :usuario AND t.data BETWEEN :doisMinutosAtras AND :agora")
     int getQuantByValorAndUsuarioAndData(
         @Param("valor") Double valor,
         @Param("usuario") Usuario usuario,
@@ -22,6 +22,6 @@ public interface TransacaoRepository extends JpaRepository<TransacaoAggregate, U
         @Param("agora") LocalDateTime agora
     );
 
-    @Query("SELECT COUNT(t) FROM Transacao t WHERE t.data BETWEEN :doisMinutosAtras AND :agora")
+    @Query("SELECT COUNT(t) FROM TransacaoAggregate t WHERE t.data BETWEEN :doisMinutosAtras AND :agora")
     int getQuantByData(@Param("doisMinutosAtras") LocalDateTime doisMinutosAtras, @Param("agora") LocalDateTime agora);
 }

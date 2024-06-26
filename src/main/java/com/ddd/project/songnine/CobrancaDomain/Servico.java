@@ -18,7 +18,6 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "servicos")
 @Inheritance(strategy = InheritanceType.JOINED)
